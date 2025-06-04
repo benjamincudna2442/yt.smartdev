@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDev's YouTube DL API</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.2);
+        }
+        .api-section {
+            transition: all 0.3s ease;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        .api-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px rgba(34, 197, 94, 0.15);
+            border-color: #22c55e;
+        }
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: #22c55e;
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .glow-red {
+            text-shadow: 0 0 8px rgba(239, 68, 68, 0.5), 0 0 16px rgba(239, 68, 68, 0.3);
+        }
+        .glow-green {
+            text-shadow: 0 0 8px rgba(34, 197, 94, 0.5), 0 0 16px rgba(34, 197, 94, 0.3);
+        }
+        .code-block {
+            background: #f9fafb;
+            border-left: 4px solid #22c55e;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(34, 197, 94, 0.05), transparent);
+        }
+        .modern-btn {
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .modern-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="header-bg text-white p-10 text-center">
+        <div class="flex justify-center items-center space-x-4">
+            <i class="fab fa-youtube text-5xl glow-red"></i>
+            <h1 class="text-4xl md:text-5xl font-bold pulse glow-red">SmartDev's YouTube DL API</h1>
+        </div>
+        <p class="mt-4 text-lg font-light">A Modern, Powerful Solution for YouTube Video & Audio Extraction</p>
+        <a href="#endpoints" class="modern-btn mt-6 inline-block">Explore Endpoints</a>
+    </header>
+
+    <main class="flex-grow container mx-auto p-6 md:p-10">
+        <section class="mb-12 text-center">
+            <h2 class="text-3xl font-semibold glow-green mb-4">Welcome to SmartDev's API</h2>
+            <p class="text-gray-600 max-w-3xl mx-auto">Seamlessly extract YouTube video and audio formats with detailed metadata and direct download links. Designed for speed, reliability, and ease of use with cookie-based authentication support.</p>
+        </section>
+
+        <section id="endpoints" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="api-section p-6 shadow-lg">
+                <h3 class="text-2xl font-semibold glow-green mb-3">/dl - Fetch Formats</h3>
+                <p class="text-gray-600 mb-4">Retrieve all available YouTube video and audio formats with direct download links.</p>
+                <div class="code-block">
+                    <p><strong>Method:</strong> GET</p>
+                    <p><strong>Parameters:</strong></p>
+                    <ul class="list-disc pl-5 text-gray-700">
+                        <li>url: YouTube video URL (required)</li>
+                        <li>format: Desired format ID (optional)</li>
+                        <li>quality: Desired quality (optional)</li>
+                        <li>type: Media type: video or audio (optional)</li>
+                    </ul>
+                    <p class="mt-3"><strong>Example Request:</strong></p>
+                    <code class="text-sm">curl "http://localhost:5000/dl?url=https://youtu.be/bUUCZpPhNZs"</code>
+                    <p class="mt-3"><strong>Notes:</strong> Requires cookies.txt in server directory for authentication.</p>
+                </div>
+            </div>
+            <div class="api-section p-6 shadow-lg">
+                <h3 class="text-2xl font-semibold glow-green mb-3">/docs - API Docs</h3>
+                <p class="text-gray-600 mb-4">Access comprehensive API documentation in JSON format.</p>
+                <div class="code-block">
+                    <p><strong>Method:</strong> GET</p>
+                    <p><strong>Example Request:</strong></p>
+                    <code class="text-sm">curl "http://localhost:5000/docs"</code>
+                    <p class="mt-3"><strong>Response:</strong> JSON object with endpoint details and API info.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-semibold glow-green mb-4 text-center">API Info</h2>
+            <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200 max-w-2xl mx-auto">
+                <p><strong>Name:</strong> TheSmartDev</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+                <p><strong>Website:</strong> <a href="http://localhost:5000" class="text-green-600 hover:underline">http://localhost:5000</a></p>
+                <p><strong>Documentation:</strong> <a href="http://localhost:5000/docs" class="text-green-600 hover:underline">http://localhost:5000/docs</a></p>
+                <p><strong>Copyright:</strong> © 2025 @TheSmartDev. All rights reserved.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="header-bg text-white p-8 text-center">
+        <div class="flex justify-center space-x-8 mb-4">
+            <a href="https://facebook.com/abirxdhackz" class="social-icon" aria-label="Facebook">
+                <i class="fab fa-facebook-f text-3xl glow-red"></i>
+            </a>
+            <a href=" https://instagram.com/abirxdhackz" class="social-icon" aria-label="Instagram">
+                <i class="fab fa-instagram text-3xl glow-red"></i>
+            </a>
+            <a href="https://t.me/ISmartDevs" class="social-icon" aria-label="Telegram">
+                <i class="fab fa-telegram-plane text-3xl glow-red"></i>
+            </a>
+            <a href="https://github.com/abirxdhack" class="social-icon" aria-label="GitHub">
+                <i class="fab fa-github text-3xl glow-red"></i>
+            </a>
+            <a href="https://youtube.com" class="social-icon" aria-label="YouTube">
+                <i class="fab fa-youtube text-3xl glow-red"></i>
+            </a>
+        </div>
+        <p class="text-lg font-light">© 2025 SmartDev's YouTube DL API. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.api-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.5s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
