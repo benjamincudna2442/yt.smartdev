@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 def get_video_info(url):
     # Use /tmp for cookies in Vercel environment
-    cookie_path = '/tmp/cookies.txt'
+    cookie_path = './tmp/cookies.txt'
     ydl_opts = {
         'format': 'all',
         'quiet': True,
