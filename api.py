@@ -8,12 +8,14 @@ from uuid import uuid4
 app = Flask(__name__)
 
 def get_video_info(url):
+    # Use /tmp for cookies in Vercel environment
+    cookie_path = '/tmp/cookies.txt'
     ydl_opts = {
         'format': 'all',
         'quiet': True,
         'no_warnings': True,
         'extract_flat': False,
-        'cookiefile': os.path.join(os.path.dirname(__file__), 'cookies.txt'),
+        'cookiefile': cookie_path if os.path.exists(cookie_path) else None,  # Use cookies only if present
         'noplaylist': True,
         'simulate': True,
         'force_generic_extractor': False,
@@ -83,7 +85,7 @@ def get_video_info(url):
             
             response = {
                 'api': 'TheSmartDev',
-                'api_url': 'http://localhost:5000',
+                'api_url': 'https://yt-smartdev.vercel.app',
                 'timestamp': datetime.utcnow().isoformat(),
                 'video_info': video_info,
                 'available_formats': available_formats,
@@ -96,8 +98,8 @@ def get_video_info(url):
                 'api_info': {
                     'name': 'TheSmartDev',
                     'version': '1.0.0',
-                    'website': 'http://localhost:5000',
-                    'documentation': 'http://localhost:5000/docs',
+                    'website': 'https://yt-smartdev.vercel.app',
+                    'documentation': 'https://yt-smartdev.vercel.app/docs',
                     'copyright': f'© {datetime.now().year} @TheSmartDev. All rights reserved.'
                 }
             }
@@ -106,7 +108,7 @@ def get_video_info(url):
         return {
             'error': str(e),
             'api': 'TheSmartDev',
-            'api_url': 'http://localhost:5000',
+            'api_url': 'https://yt-smartdev.vercel.app',
             'timestamp': datetime.utcnow().isoformat(),
             'request': {
                 'url': url,
@@ -117,8 +119,8 @@ def get_video_info(url):
             'api_info': {
                 'name': 'TheSmartDev',
                 'version': '1.0.0',
-                'website': 'http://localhost:5000',
-                'documentation': 'http://localhost:5000/docs',
+                'website': 'https://yt-smartdev.vercel.app',
+                'documentation': 'https://yt-smartdev.vercel.app/docs',
                 'copyright': f'© {datetime.now().year} @TheSmartDev. All rights reserved.'
             }
         }, 500
@@ -163,7 +165,7 @@ def download():
         return jsonify({
             'error': 'URL parameter is required',
             'api': 'TheSmartDev',
-            'api_url': 'http://localhost:5000',
+            'api_url': 'https://yt-smartdev.vercel.app',
             'timestamp': datetime.utcnow().isoformat(),
             'request': {
                 'url': url,
@@ -174,32 +176,17 @@ def download():
             'api_info': {
                 'name': 'TheSmartDev',
                 'version': '1.0.0',
-                'website': 'http://localhost:5000',
-                'documentation': 'http://localhost:5000/docs',
+                'website': 'https://yt-smartdev.vercel.app',
+                'documentation': 'https://yt-smartdev.vercel.app/docs',
                 'copyright': f'© {datetime.now().year} @TheSmartDev. All rights reserved.'
             }
         }), 400
     
-    if not os.path.exists(os.path.join(os.path.dirname(__file__), 'cookies.txt')):
-        return jsonify({
-            'error': 'cookies.txt file not found in the same directory',
-            'api': 'TheSmartDev',
-            'api_url': 'http://localhost:5000',
-            'timestamp': datetime.utcnow().isoformat(),
-            'request': {
-                'url': url,
-                'format': request.args.get('format'),
-                'quality': request.args.get('quality'),
-                'type': request.args.get('type')
-            },
-            'api_info': {
-                'name': 'TheSmartDev',
-                'version': '1.0.0',
-                'website': 'http://localhost:5000',
-                'documentation': 'http://localhost:5000/docs',
-                'copyright': f'© {datetime.now().year} @TheSmartDev. All rights reserved.'
-            }
-        }), 500
+    # Check for cookies.txt in /tmp
+    cookie_path = '/tmp/cookies.txt'
+    if not os.path.exists(cookie_path):
+        # No error, just proceed without cookies
+        pass
     
     response = get_video_info(url)
     if 'error' in response:
